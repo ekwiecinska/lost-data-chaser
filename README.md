@@ -9,8 +9,8 @@ challenge for the [SpaceApps 2019 Hackathon](https://www.spaceappschallenge.org/
 > inspired by data collection during additive manufacturing (AM) processes where sensors capture build characteristics in-situ, but it has applications across many NASA domains.
 
 # Installation
-## Linux
-### Conda 
+## Linux
+### Conda 
 To install in development mode:
 1. Navigate to `/lost-data-chaser`
 2. Run `conda env create -f environment.yml`
