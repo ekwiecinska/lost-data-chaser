@@ -57,8 +57,6 @@ def missing_value_heatmap(dataframe, name):
 
     return fig
 
-from plotly.subplots import make_subplots
-
 
 def missing_data_ratios(dataframes, names):
     """ 
@@ -90,5 +88,49 @@ def missing_data_ratios(dataframes, names):
         )
 
     fig.update_layout(autosize=True, title_text="Missing data ratios across each dataset")
+
+    return fig
+
+
+def time_series_with_nans(dataframe, column, class_column=None):
+    """ Visualise a time series for an aggregate signal, or split the signal over classes.
+    
+    :param dataframe: Pandas DataFrame with a valid pd.DateTime index
+    :type dataframe: pd.DataFrame
+    
+    :param column: Column name containing the signal
+    :type column: str
+    
+    :param class_column: If None, plot all of the signals over classes as one trace. Otherwise, plot a trace 
+    for each unique value in dataframe[class_column]
+    :type class_column: str
+    
+    :return: A plotly figure of the time series with gaps for missing data.
+    :rtype: plotly.graph_objects.Figure
+    """
+    if not class_column:
+        data = [
+            go.Scatter(x=dataframe.index, y=dataframe[column].values)
+        ]
+    else:
+        class_ids = dataframe[class_column].unique()
+        data = []
+        for class_id in class_ids:
+            class_df = dataframe.query(f'{class_column} == "{class_id}"')
+            data.append(
+                go.Scatter(x=class_df.index,
+                           y=class_df[column].values,
+                           name=f'{class_id}'
+                          )
+            )
+            
+
+    layout = go.Layout(
+    title=dict(text=f"Time series with missing data. Double click on a legend item to isolate the trace (double click to clear)",
+               font=dict(size=24)),
+    autosize = True, 
+    )
+
+    fig = go.Figure(data=data, layout=layout)
 
     return fig
