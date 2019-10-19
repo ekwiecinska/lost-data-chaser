@@ -19,3 +19,11 @@ To install in development mode:
 1. Navigate to `/lost-data-chaser`
 2. Run `python setup.py install` or `python setup.py develop` for development mode.
 
+# Dataset download
+To run the notebooks, ensure you have downloaded the following challenge files.
+
+An auxiliary file will also be required, to download this run
+
+`$ python data_chaser/utils/nsidc-download_SNEX17_SSD.001_2019-10-19.py` 
+
+And extract the file `SnowEx17_snowdepth_15min_V2.csv` to your data directory.
