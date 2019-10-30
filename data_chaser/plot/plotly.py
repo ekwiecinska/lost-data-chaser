@@ -31,26 +31,26 @@ def missing_value_heatmap(dataframe, name):
     ]
 
     layout = go.Layout(
-    title=dict(text=f"Missing data heatmap ({name}): Hover to see column names and indices with missing values.",
-               font=dict(size=24)),
-    autosize = True, 
-    xaxis=dict(
-        showticklabels=True, 
-        ticks="", 
-        showgrid=False,
-        zeroline=False,
-        automargin=False,
-        tickmode='array',
-    ),
-    yaxis=dict(
-        autorange=True,
-        tickmode='array',
-        showgrid=False,
-        zeroline=False,
-        showline=False,
-        ticks="",
-        automargin=False,
-        showticklabels=False),
+        title=dict(text=f"Missing data heatmap ({name}): Hover to see column names and indices with missing values.",
+                   font=dict(size=24)),
+        autosize=True,
+        xaxis=dict(
+            showticklabels=True,
+            ticks="",
+            showgrid=False,
+            zeroline=False,
+            automargin=False,
+            tickmode='array',
+        ),
+        yaxis=dict(
+            autorange=True,
+            tickmode='array',
+            showgrid=False,
+            zeroline=False,
+            showline=False,
+            ticks="",
+            automargin=False,
+            showticklabels=False),
     )
 
     fig = go.Figure(data=data, layout=layout)
@@ -72,18 +72,19 @@ def missing_data_ratios(dataframes, names):
     :rtype: plotly.graph_objects.Figure
     """
     if isinstance(dataframes, list):
-        fig = make_subplots(rows=1, cols=len(dataframes), subplot_titles=names, specs=[[{"type": "domain"} for x in range(len(dataframes))]])
+        fig = make_subplots(rows=1, cols=len(dataframes), subplot_titles=names,
+                            specs=[[{"type": "domain"} for x in range(len(dataframes))]])
     elif isinstance(dataframes, pd.DataFrame):
         fig = make_subplots(rows=1, cols=1, subplot_titles=names, specs=[{"type": "domain"}])
     else:
         raise ValueError("Dataframe should be a list of dataframes or a single dataframe")
-    
+
     labels = ['Present', 'Missing']
-    
+
     for col, df in enumerate(dataframes, start=1):
         values = [df.notnull().sum().sum(), df.isnull().sum().sum()]
         fig.add_trace(
-            go.Pie(labels=labels, values=values, name=names[col-1]),
+            go.Pie(labels=labels, values=values, name=names[col - 1]),
             row=1, col=col
         )
 
@@ -121,14 +122,15 @@ def time_series_with_nans(dataframe, column, class_column=None):
                 go.Scatter(x=class_df.index,
                            y=class_df[column].values,
                            name=f'{class_id}'
-                          )
+                           )
             )
-            
 
     layout = go.Layout(
-    title=dict(text=f"Time series with missing data. Double click on a legend item to isolate the trace (double click to clear)",
-               font=dict(size=24)),
-    autosize = True, 
+        title=dict(
+            text=f"Time series with missing data. Double click on a legend item to isolate the trace (double click "
+                 f"to clear)",
+            font=dict(size=24)),
+        autosize=True,
     )
 
     fig = go.Figure(data=data, layout=layout)
