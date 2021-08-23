@@ -19,7 +19,7 @@ requirements = [
     'plotly==4.1.0',
     'notebook>=5.3',
     'ipywidgets>=7.2',
-    'jupyterlab==1.0',
+    'jupyterlab==1.2.21',
     'xlrd',
     'nodejs',
 ]
